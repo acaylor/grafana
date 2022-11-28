@@ -1,14 +1,6 @@
 {
   "__inputs": [
     {
-      "name": "DS_PROMETHEUS-1",
-      "label": "Prometheus-1",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
       "name": "DS_PROMETHEUS",
       "label": "Prometheus",
       "description": "",
@@ -76,7 +68,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-1}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "DNS queries forwarded to public DNS servers from cloudflare",
       "fieldConfig": {
@@ -154,7 +146,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-1}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "expr": "rate(coredns_dns_requests_total[5m])",
@@ -169,7 +161,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-1}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "latency in seconds of DNS requests to upstream cloudflared servers",
       "fieldConfig": {
@@ -248,7 +240,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-1}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.99, sum(rate(coredns_dns_request_duration_seconds_bucket{job=\"cloudflared_metrics\"}[5m])) by(server, zone, le))",
@@ -263,7 +255,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-1}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "DNS query error rate / $rate_interval",
       "fieldConfig": {
@@ -341,7 +333,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-1}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "rate(coredns_dns_responses_total{rcode=\"NOERROR\"}[$__rate_interval])",
@@ -352,7 +344,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-1}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "rate(coredns_dns_responses_total{rcode=\"NXDOMAIN\"}[$__rate_interval])",
@@ -401,6 +393,6 @@
   "timezone": "",
   "title": "Upstream DNS",
   "uid": "GCLcw0SVz",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }

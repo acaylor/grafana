@@ -21,7 +21,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.0.3"
+      "version": "9.1.2"
     },
     {
       "type": "panel",
@@ -82,7 +82,6 @@
   "gnetId": 12611,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1657984434882,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -153,7 +152,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.3",
+      "pluginVersion": "9.1.2",
       "targets": [
         {
           "datasource": {
@@ -235,7 +234,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.3",
+      "pluginVersion": "9.1.2",
       "targets": [
         {
           "datasource": {
@@ -356,6 +355,7 @@
           "calcs": [],
           "displayMode": "table",
           "placement": "bottom",
+          "showLegend": true,
           "values": [
             "value",
             "percent"
@@ -431,6 +431,7 @@
           "calcs": [],
           "displayMode": "table",
           "placement": "right",
+          "showLegend": true,
           "values": [
             "value",
             "percent"
@@ -531,7 +532,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": false
       },
-      "pluginVersion": "9.0.3",
+      "pluginVersion": "9.1.2",
       "targets": [
         {
           "datasource": {
@@ -558,11 +559,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
+            "drawStyle": "line",
+            "fillOpacity": 75,
             "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
@@ -575,7 +578,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "always",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -612,7 +615,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -638,7 +642,7 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 36,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [
     "Loki",
@@ -747,6 +751,6 @@
   "timezone": "",
   "title": "Loki log explorer",
   "uid": "fRIvzUZMz",
-  "version": 7,
+  "version": 2,
   "weekStart": ""
 }
