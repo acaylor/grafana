@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.1.2"
+      "version": "9.3.0"
     },
     {
       "type": "datasource",
@@ -393,6 +393,6 @@
   "timezone": "",
   "title": "Upstream DNS",
   "uid": "GCLcw0SVz",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }

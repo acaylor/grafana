@@ -21,7 +21,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.1.2"
+      "version": "9.3.0"
     },
     {
       "type": "panel",
@@ -175,7 +175,7 @@
         },
         "textMode": "name"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -260,7 +260,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -345,7 +345,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -430,7 +430,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -515,7 +515,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -599,7 +599,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.3.0",
       "repeatDirection": "h",
       "targets": [
         {
@@ -682,7 +682,7 @@
       },
       "paceLength": 10,
       "percentage": false,
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.3.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -802,7 +802,7 @@
         },
         "textMode": "name"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -1442,8 +1442,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1572,8 +1571,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1784,8 +1782,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2193,8 +2190,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2316,8 +2312,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2475,8 +2470,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#299c46",
-                "value": null
+                "color": "#299c46"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -3642,6 +3636,6 @@
   "timezone": "browser",
   "title": "Windows Node",
   "uid": "000000014",
-  "version": 3,
+  "version": 1,
   "weekStart": ""
 }
