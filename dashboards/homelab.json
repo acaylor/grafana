@@ -2,7 +2,7 @@
   "__inputs": [
     {
       "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
+      "label": "prometheus",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -27,7 +27,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.5.2"
+      "version": "10.4.3"
     },
     {
       "type": "panel",
@@ -140,8 +140,9 @@
         "y": 0
       },
       "id": 37,
-      "links": [],
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -151,9 +152,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -162,7 +164,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(sum(irate(node_cpu_seconds_total {mode!=\"idle\",job=\"node_exporter\"}[$smoothing_interval])) by (instance)) / sum(irate(node_cpu_seconds_total{job=\"node_exporter\"}[$smoothing_interval])) by (instance)",
+          "expr": "(sum(irate(node_cpu_seconds_total {mode!=\"idle\",job=\"node_exporter_lab\"}[$smoothing_interval])) by (instance)) / sum(irate(node_cpu_seconds_total{job=\"node_exporter_lab\"}[$smoothing_interval])) by (instance)",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -256,6 +258,8 @@
       },
       "id": 39,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -265,9 +269,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -276,7 +281,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "100 - ((node_memory_MemAvailable_bytes{job=\"node_exporter\"} * 100) / node_memory_MemTotal_bytes{job=\"node_exporter\"})",
+          "expr": "100 - ((node_memory_MemAvailable_bytes{job=\"node_exporter_lab\"} * 100) / node_memory_MemTotal_bytes{job=\"node_exporter_lab\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -329,6 +334,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -342,6 +348,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
@@ -454,9 +461,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -465,9 +474,22 @@
           },
           "editorMode": "code",
           "expr": "sum(kubelet_running_containers)",
-          "legendFormat": "__auto",
+          "legendFormat": "k8s",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "count(container_tasks_state{state=\"running\",name=~\".+\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "docker",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Running Containers",
@@ -523,9 +545,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -593,7 +617,6 @@
         "y": 7
       },
       "id": 29,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -607,9 +630,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -686,7 +711,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "count by (hostname) (unifipoller_client_uptime_seconds)",
+          "expr": "count by (hostname) (unpoller_client_uptime_seconds)",
           "instant": true,
           "legendFormat": "Wired",
           "range": false,
@@ -699,7 +724,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "count by (channel) (unifipoller_client_roam_count_total)",
+          "expr": "count by (channel) (unpoller_client_roam_count_total)",
           "hide": false,
           "instant": true,
           "legendFormat": "Channel {{channel}}",
@@ -769,7 +794,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "count by (radio_proto) (unifipoller_client_roam_count_total)",
+          "expr": "count by (radio_proto) (unpoller_client_roam_count_total)",
           "legendFormat": "{{radio_proto}}",
           "range": true,
           "refId": "A"
@@ -848,10 +873,12 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -881,6 +908,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -894,6 +922,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1015,8 +1044,10 @@
       "id": 15,
       "options": {
         "displayMode": "lcd",
+        "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -1026,9 +1057,10 @@
           "values": false
         },
         "showUnfilled": true,
+        "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -1095,10 +1127,12 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -1128,6 +1162,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1141,6 +1176,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "stepAfter",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1258,6 +1294,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1271,6 +1308,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1357,6 +1395,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1370,6 +1409,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1431,6 +1471,7 @@
           },
           "editorMode": "code",
           "expr": "irate(node_disk_io_time_seconds_total [$smoothing_interval])\r\n",
+          "interval": "$smoothing_interval",
           "legendFormat": "{{instance}} | {{device}}",
           "range": true,
           "refId": "A"
@@ -1499,8 +1540,10 @@
       "id": 45,
       "options": {
         "displayMode": "gradient",
+        "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1510,9 +1553,10 @@
           "values": false
         },
         "showUnfilled": true,
+        "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -1571,6 +1615,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1584,6 +1629,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "stepBefore",
             "lineStyle": {
               "fill": "solid"
@@ -1643,7 +1689,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "unifipoller_site_transmit_rate_bytes",
+          "expr": "unpoller_site_transmit_rate_bytes",
           "interval": "$smoothing_interval",
           "legendFormat": "{{subsystem}} Tx",
           "range": true,
@@ -1655,7 +1701,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "-(unifipoller_site_receive_rate_bytes)",
+          "expr": "-(unpoller_site_receive_rate_bytes)",
           "hide": false,
           "interval": "$smoothing_interval",
           "legendFormat": "{{subsystem}} Rx",
@@ -1678,6 +1724,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1691,6 +1738,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineStyle": {
               "fill": "solid"
@@ -1754,7 +1802,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "unifipoller_device_radio_channel_utilization_receive_ratio",
+          "expr": "unpoller_device_radio_channel_utilization_receive_ratio",
           "interval": "$smoothing_interval",
           "legendFormat": "{{radio}} Rx",
           "range": true,
@@ -1766,7 +1814,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "unifipoller_device_radio_channel_utilization_transmit_ratio",
+          "expr": "unpoller_device_radio_channel_utilization_transmit_ratio",
           "hide": false,
           "interval": "$smoothing_interval",
           "legendFormat": "{{radio}} Tx",
@@ -1782,40 +1830,42 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "latency in seconds of DNS requests to upstream cloudflared servers",
+      "description": "Latency of DNS upstream servers compared to localhost",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 10,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
-            "spanNulls": false,
+            "showPoints": "never",
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "line+area"
+              "mode": "off"
             }
           },
           "mappings": [],
@@ -1828,11 +1878,11 @@
               },
               {
                 "color": "red",
-                "value": 1
+                "value": 80
               }
             ]
           },
-          "unit": "s"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -1842,19 +1892,20 @@
         "x": 18,
         "y": 34
       },
-      "id": 63,
+      "id": 67,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
+      "pluginVersion": "10.4.0",
       "targets": [
         {
           "datasource": {
@@ -1862,13 +1913,14 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum(rate(coredns_dns_request_duration_seconds_bucket{job=\"cloudflared_metrics\"}[5m])) by(server, zone, le))",
+          "expr": "sum by (upstream) (rate(adguard_processing_time_milliseconds_sum[5m])) / sum by (upstream) (rate(adguard_processing_time_milliseconds_count[5m]))",
+          "interval": "$smoothing_interval",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Upstream DNS request latency",
+      "title": "DNS Upstream Response Time",
       "type": "timeseries"
     },
     {
@@ -1923,9 +1975,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -1969,7 +2023,39 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "area"
+            }
           },
           "mappings": [],
           "thresholds": {
@@ -2017,20 +2103,18 @@
       },
       "id": 41,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
-        "textMode": "auto"
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -2038,7 +2122,8 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "node_hwmon_temp_celsius{job=\"node_exporter\"}",
+          "expr": "node_hwmon_temp_celsius{job=\"node_exporter_lab\"}",
+          "interval": "$smoothing_interval",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -2061,7 +2146,7 @@
           }
         }
       ],
-      "type": "stat"
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -2125,10 +2210,12 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.4.3",
       "targets": [
         {
           "datasource": {
@@ -2137,7 +2224,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{job=\"node_exporter\"}",
+          "expr": "up{job=\"node_exporter_lab\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -2182,8 +2269,7 @@
   ],
   "refresh": "5m",
   "revision": 1,
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
@@ -2254,6 +2340,7 @@
           }
         ],
         "query": "1m,5m,15m,1h,1d,1w",
+        "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
       }
@@ -2289,8 +2376,8 @@
     ]
   },
   "timezone": "",
-  "title": "TV Dashboard Copy",
+  "title": "TV Dashboard",
   "uid": "panhEMhVk",
-  "version": 2,
+  "version": 8,
   "weekStart": ""
 }
