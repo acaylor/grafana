@@ -1233,7 +1233,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "-(rate(node_network_receive_bytes_total[$__rate_interval])*8)",
+          "expr": "-(rate(node_network_receive_bytes_total[$__rate_interval]))",
           "interval": "$smoothing_interval",
           "legendFormat": "Rx {{device}} | {{instance}}",
           "range": true,
@@ -1245,7 +1245,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "rate(node_network_transmit_bytes_total[$__rate_interval])*8",
+          "expr": "rate(node_network_transmit_bytes_total[$__rate_interval])",
           "hide": false,
           "interval": "$smoothing_interval",
           "legendFormat": "Tx {{device}} | {{instance}}",
@@ -1410,13 +1410,13 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1739,7 +1739,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineStyle": {
               "fill": "solid"
             },
@@ -1748,7 +1748,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1763,8 +1763,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1873,8 +1872,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1939,8 +1937,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "super-light-blue",
-                "value": null
+                "color": "super-light-blue"
               },
               {
                 "color": "#EAB839",
@@ -2062,8 +2059,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "blue"
               },
               {
                 "color": "dark-green",
@@ -2179,8 +2175,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2378,6 +2373,6 @@
   "timezone": "",
   "title": "TV Dashboard",
   "uid": "panhEMhVk",
-  "version": 8,
+  "version": 9,
   "weekStart": ""
 }
