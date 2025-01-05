@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.4.3"
+      "version": "11.3.0"
     },
     {
       "type": "datasource",
@@ -101,7 +101,7 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 23,
+        "w": 24,
         "x": 0,
         "y": 0
       },
@@ -111,6 +111,7 @@
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -122,7 +123,7 @@
         "textMode": "value_and_name",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.3",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -150,7 +151,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Per-second request rate over 5 minute interval",
+      "description": "Per-second request rate",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -163,6 +164,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -227,6 +229,7 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -235,7 +238,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "rate(caddy_http_requests_total[5m])",
+          "expr": "rate(caddy_http_requests_total[$__rate_interval])",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -253,7 +256,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Summary of all types of requests latency",
+      "description": "Avg of all types of requests latency",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -266,6 +269,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -330,6 +334,7 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -338,7 +343,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "sum(rate(caddy_http_request_duration_seconds_count{server=\"srv0\"}[5m]))",
+          "expr": "avg by(instance) (rate(caddy_http_request_duration_seconds_bucket{server=\"srv0\"}[$__rate_interval]))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -369,7 +374,8 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "line",
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
             "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
@@ -433,6 +439,7 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -455,7 +462,7 @@
       "type": "timeseries"
     }
   ],
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": []
@@ -468,6 +475,6 @@
   "timezone": "browser",
   "title": "Caddy",
   "uid": "admj4o715uoe8b",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }

@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.4.3"
+      "version": "11.3.0"
     },
     {
       "type": "datasource",
@@ -55,17 +55,12 @@
   "description": "Cadvisor metrics. Shows metrics from docker host.",
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": 14282,
   "graphTooltip": 0,
   "id": null,
   "links": [],
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "ddm8wvk8vw4xsf"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -74,15 +69,6 @@
       },
       "id": 8,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddm8wvk8vw4xsf"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "CPU",
       "type": "row"
     },
@@ -103,6 +89,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -168,7 +155,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.3",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -187,10 +174,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "ddm8wvk8vw4xsf"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -199,15 +182,6 @@
       },
       "id": 11,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddm8wvk8vw4xsf"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Memory",
       "type": "row"
     },
@@ -228,6 +202,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -293,7 +268,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.3",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -327,6 +302,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -392,7 +368,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.3",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -411,10 +387,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "ddm8wvk8vw4xsf"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -423,15 +395,6 @@
       },
       "id": 2,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddm8wvk8vw4xsf"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Network",
       "type": "row"
     },
@@ -452,6 +415,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -517,7 +481,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.3",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -551,10 +515,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "ddm8wvk8vw4xsf"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -563,15 +523,6 @@
       },
       "id": 19,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddm8wvk8vw4xsf"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Summary",
       "type": "row"
     },
@@ -595,7 +546,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -668,7 +620,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "10.4.3",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -721,7 +673,8 @@
       "type": "table"
     }
   ],
-  "schemaVersion": 39,
+  "refresh": "",
+  "schemaVersion": 40,
   "tags": [
     "cadvisor",
     "docker"
@@ -736,10 +689,8 @@
           "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values({__name__=~\"container.*\"},instance)",
-        "hide": 0,
         "includeAll": true,
         "label": "Host",
-        "multi": false,
         "name": "host",
         "options": [],
         "query": {
@@ -748,12 +699,8 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 5,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "allValue": ".*",
@@ -763,10 +710,8 @@
           "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values({__name__=~\"container.*\", instance=~\"$host\"},name)",
-        "hide": 0,
         "includeAll": true,
         "label": "Container",
-        "multi": false,
         "name": "container",
         "options": [],
         "query": {
@@ -775,12 +720,7 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       }
     ]
   },
