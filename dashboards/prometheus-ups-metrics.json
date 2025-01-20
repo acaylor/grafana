@@ -7,22 +7,10 @@
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_EXPRESSION",
-      "label": "Expression",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "__expr__"
     }
   ],
   "__elements": {},
   "__requires": [
-    {
-      "type": "datasource",
-      "id": "__expr__",
-      "version": "1.0.0"
-    },
     {
       "type": "panel",
       "id": "bargauge",
@@ -51,6 +39,12 @@
       "type": "panel",
       "id": "stat",
       "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
       "version": ""
     },
     {
@@ -166,27 +160,16 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "nut_status{ups=~\"${ups:pipe}\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
           "disableTextWrap": false,
           "editorMode": "builder",
+          "exemplar": false,
           "expr": "apcupsd_info",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
-          "instant": false,
+          "instant": true,
           "legendFormat": "{{ups}}",
-          "range": true,
+          "range": false,
           "refId": "B",
           "useBackend": false
         }
@@ -260,23 +243,6 @@
       },
       "pluginVersion": "11.3.0",
       "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "exemplar": false,
-          "expr": "nut_input_voltage_volts",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": true,
-          "legendFormat": "{{ups}}",
-          "range": false,
-          "refId": "A",
-          "useBackend": false
-        },
         {
           "datasource": {
             "type": "prometheus",
@@ -361,7 +327,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(avg_over_time(nut_load[1h]) * nut_real_power_nominal_watts) + sum(avg_over_time(apcupsd_ups_load_percent[1h]) * apcupsd_nominal_power_watts) / 100",
+          "expr": "sum(avg_over_time(apcupsd_ups_load_percent[1h]) * apcupsd_nominal_power_watts) / 100",
           "hide": false,
           "instant": true,
           "legendFormat": "__auto",
@@ -384,7 +350,7 @@
             "mode": "continuous-GrYlRd"
           },
           "mappings": [],
-          "max": 1,
+          "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
@@ -399,7 +365,7 @@
               }
             ]
           },
-          "unit": "percentunit"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -441,22 +407,10 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "nut_load{ups=~\"${ups:pipe}\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "apcupsd_ups_load_percent / 100",
+          "expr": "apcupsd_ups_load_percent",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -469,6 +423,91 @@
       ],
       "title": "UPS Load",
       "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 11,
+        "x": 9,
+        "y": 7
+      },
+      "id": 22,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "apcupsd_info{}",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          }
+        }
+      ],
+      "title": "UPS info",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
     },
     {
       "datasource": {
@@ -502,8 +541,8 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 9,
-        "x": 9,
+        "w": 4,
+        "x": 20,
         "y": 7
       },
       "id": 16,
@@ -532,18 +571,6 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "nut_battery_runtime_seconds{ups=~\"${ups:pipe}\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
@@ -559,101 +586,6 @@
         }
       ],
       "title": "Runtime",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "text": "Unknown"
-                },
-                "1": {
-                  "text": "Beeper enabled"
-                },
-                "2": {
-                  "text": "Beeper disabled"
-                },
-                "3": {
-                  "text": "Beeper muted"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 1
-              },
-              {
-                "color": "red",
-                "value": 2
-              },
-              {
-                "color": "orange",
-                "value": 3
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 18,
-        "y": 7
-      },
-      "id": 14,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {},
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.3.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "nut_beeper_status{ups=~\"${ups:pipe}\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Beeper Status",
       "type": "stat"
     },
     {
@@ -711,10 +643,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -745,17 +673,6 @@
       },
       "pluginVersion": "11.3.0",
       "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "100 * avg_over_time(nut_battery_charge{ups=~\"${ups:pipe}\"}[$smoothing_interval])",
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
         {
           "datasource": {
             "type": "prometheus",
@@ -868,17 +785,6 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "avg_over_time(nut_battery_runtime_seconds{ups=~\"${ups:pipe}\"}[$smoothing_interval])",
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
           "disableTextWrap": false,
           "editorMode": "builder",
           "expr": "avg_over_time(apcupsd_battery_time_left_seconds[$smoothing_interval])",
@@ -954,7 +860,7 @@
               }
             ]
           },
-          "unit": "percentunit"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -986,21 +892,9 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "avg_over_time(nut_load{ups=~\"${ups:pipe}\"}[$smoothing_interval])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg_over_time(apcupsd_ups_load_percent[$smoothing_interval]) / 100",
+          "expr": "avg_over_time(apcupsd_ups_load_percent[$smoothing_interval])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1106,17 +1000,6 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "avg_over_time(nut_battery_voltage_volts{ups=~\"${ups:pipe}\"}[$smoothing_interval])",
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
           "disableTextWrap": false,
           "editorMode": "builder",
           "expr": "avg_over_time(apcupsd_battery_volts[$smoothing_interval])",
@@ -1177,7 +1060,6 @@
               "mode": "off"
             }
           },
-          "decimals": 1,
           "links": [],
           "mappings": [],
           "thresholds": {
@@ -1220,17 +1102,6 @@
       },
       "pluginVersion": "11.3.0",
       "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "avg_over_time(nut_input_voltage_volts{ups=~\"${ups:pipe}\"}[$smoothing_interval])",
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
         {
           "datasource": {
             "type": "prometheus",
@@ -1344,17 +1215,6 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "avg_over_time(nut_output_voltage_volts{ups=~\"${ups:pipe}\"}[$smoothing_interval])",
-          "interval": "",
-          "legendFormat": "{{ups}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
           "disableTextWrap": false,
           "editorMode": "builder",
           "expr": "avg_over_time(apcupsd_output_volts[$smoothing_interval])",
@@ -1380,7 +1240,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "continuous-YlRd"
           },
           "custom": {
             "axisBorderShow": false,
@@ -1391,7 +1251,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 53,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -1399,13 +1259,13 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "stepAfter",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1422,10 +1282,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -1445,7 +1301,7 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "tooltip": {
           "mode": "single",
@@ -1460,37 +1316,13 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(nut_real_power_nominal_watts * nut_load)",
-          "hide": true,
-          "instant": false,
-          "interval": "$smoothing_interval",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
           "expr": "sum((apcupsd_ups_load_percent / 100) * apcupsd_nominal_power_watts)",
-          "hide": true,
+          "hide": false,
           "instant": false,
           "interval": "$smoothing_interval",
           "legendFormat": "{{ups}}",
           "range": true,
           "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
-          },
-          "expression": "$A + $B",
-          "hide": false,
-          "refId": "C",
-          "type": "math"
         }
       ],
       "title": "Estimated total power usage",
@@ -1516,7 +1348,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 5,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -1530,7 +1362,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1547,10 +1379,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -1579,20 +1407,6 @@
       },
       "pluginVersion": "11.3.0",
       "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "expr": "sum by (ups)(nut_real_power_nominal_watts * nut_load)",
-          "hide": false,
-          "instant": false,
-          "interval": "$smoothing_interval",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        },
         {
           "datasource": {
             "type": "prometheus",
@@ -1688,13 +1502,13 @@
     ]
   },
   "time": {
-    "from": "now-7d",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Prometheus UPS metrics",
   "uid": "80-PUnWMk",
-  "version": 4,
+  "version": 6,
   "weekStart": ""
 }
