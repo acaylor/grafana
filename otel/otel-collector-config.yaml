@@ -1,0 +1,17 @@
+receivers:
+  fluentforward:
+    endpoint: 0.0.0.0:8006
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  otlphttp:
+    endpoint: http://loki:3100/otlp
+
+service:
+  pipelines:
+    logs:
+      receivers: [fluentforward, otlp]
+      exporters: [otlphttp]
