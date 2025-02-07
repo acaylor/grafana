@@ -1,15 +1,155 @@
-version: '3'
-
-volumes:
-  grafana-data:
-    driver: local
-
 services:
+  # aggregate container logs
+  fluentd:
+    image: fluentd:v1.18.0-debian-1.0
+    container_name: fluentd
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo -n '' > /dev/tcp/127.0.0.1/24224"]
+      interval: 1m30s
+      timeout: 15s
+      retries: 3
+      start_period: 10s
+    ports:
+      - "24224:24224"
+    volumes:
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
+      - fluentd-storage:/fluentd/log
+  # collect logs and query using an api
+  loki:
+    image: grafana/loki:3.3.2
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: "-config.file=/etc/loki/local-config.yaml"
+    volumes:
+      - loki-storage:/loki
+    links:
+      - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+    depends_on:
+      - fluentd
+  # receive logs from fluentd and output to grafana loki
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.118.0
+    container_name: otelcol
+    hostname: otelcol
+    ports:
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the Collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension
+      - 8006:8006 # fluentd forward added by me
+    volumes:
+      - ./otel/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    links:
+      - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+    depends_on:
+      - fluentd
+  # sample nodejs application with metrics
+  node-server:
+    build: ./app
+    container_name: node-server
+    ports:
+      - "3001:3001"
+    links:
+      - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+    depends_on:
+      - fluentd
+  # Create dashboards and alerts for metrics and logs in a UI and API
   grafana:
-    image: grafana/grafana-oss:latest
+    image: grafana/grafana:11.5.0
     container_name: grafana
     ports:
       - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_SERVER_HTTP_PORT=3000
     volumes:
-      - grafana-data:/var/lib/grafana
-    restart: unless-stopped
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    links:
+      - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+    depends_on:
+      - fluentd
+  # time series database that receives and stores metrics
+  influxdb:
+    image: influxdb:1.11.8
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=mydb
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+    links:
+      - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+    depends_on:
+      - fluentd
+  # time series database that scrapes metrics
+  prometheus:
+    image: quay.io/prometheus/prometheus:v3.1.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    links:
+      - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+    depends_on:
+      - fluentd
+  # collect metrics and expose or write to another server
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    environment:
+      - HOST_PROC=/host/proc
+      - HOST_SYS=/host/sys
+      - HOST_ETC=/host/etc
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc:/host/etc:ro
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    links:
+      - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+    depends_on:
+      - fluentd
+volumes:
+  fluentd-storage:
+  grafana-storage:
+  influxdb-storage:
+  loki-storage:
