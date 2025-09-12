@@ -27,7 +27,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "11.3.0"
+      "version": "12.1.1"
     },
     {
       "type": "datasource",
@@ -109,7 +109,7 @@
             "steps": [
               {
                 "color": "red",
-                "value": null
+                "value": 0
               },
               {
                 "color": "green",
@@ -153,7 +153,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -195,7 +195,7 @@
             "steps": [
               {
                 "color": "text",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -241,7 +241,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -282,7 +282,7 @@
             "steps": [
               {
                 "color": "purple",
-                "value": null
+                "value": 0
               },
               {
                 "color": "#EAB839",
@@ -318,7 +318,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -357,7 +357,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -400,7 +400,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -448,7 +448,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -475,7 +475,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "editorMode": "code",
@@ -523,7 +523,7 @@
             "steps": [
               {
                 "color": "red",
-                "value": null
+                "value": 0
               },
               {
                 "color": "orange",
@@ -564,7 +564,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -642,7 +642,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -667,11 +667,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -745,7 +746,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -774,11 +775,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -852,7 +854,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -881,11 +883,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -960,7 +963,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -989,11 +992,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1066,8 +1070,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1174,8 +1177,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1280,8 +1282,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1377,8 +1378,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1427,7 +1427,7 @@
     }
   ],
   "refresh": "5m",
-  "schemaVersion": 40,
+  "schemaVersion": 41,
   "tags": [
     "nut",
     "ups",
@@ -1502,7 +1502,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
