@@ -4,6 +4,10 @@ Dashboards in grafana can be shared and exported in JSON format.
 
 Files in this directory can be imported to grafana.
 
+## Provisioning
+
+The file `default.yaml` helps provision Grafana with these dashboards. See the top level docker stack for an example of how dashboards are provisioned into a container.
+
 ## Public Dashboards
 
 Dashboards that are published for the grafana community can be imported with an ID string:

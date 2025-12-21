@@ -1,7 +1,7 @@
 services:
   # aggregate container logs
   fluentd:
-    image: fluentd:v1.18.0-debian-1.0
+    image: fluent/fluentd:v1.19.1-debian-1.0
     container_name: fluentd
     healthcheck:
       test: ["CMD", "bash", "-c", "echo -n '' > /dev/tcp/127.0.0.1/24224"]
@@ -16,7 +16,7 @@ services:
       - fluentd-storage:/fluentd/log
   # collect logs and query using an api
   loki:
-    image: grafana/loki:3.3.2
+    image: grafana/loki:3.6.3
     container_name: loki
     ports:
       - "3100:3100"
@@ -33,7 +33,7 @@ services:
       - fluentd
   # receive logs from fluentd and output to grafana loki
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.118.0
+    image: otel/opentelemetry-collector-contrib:0.142.0
     container_name: otelcol
     hostname: otelcol
     ports:
@@ -49,10 +49,8 @@ services:
       - ./otel/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
     links:
       - fluentd
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: localhost:24224
+    # Note: otel-collector does NOT use fluentd logging driver to avoid circular dependency
+    # (otel-collector receives logs FROM fluentd, so sending its own logs back would create a loop)
     depends_on:
       - fluentd
   # sample nodejs application with metrics
@@ -71,7 +69,7 @@ services:
       - fluentd
   # Create dashboards and alerts for metrics and logs in a UI and API
   grafana:
-    image: grafana/grafana:11.5.0
+    image: grafana/grafana:12.3.1
     container_name: grafana
     ports:
       - "3000:3000"
@@ -93,7 +91,7 @@ services:
       - fluentd
   # time series database that receives and stores metrics
   influxdb:
-    image: influxdb:1.11.8
+    image: influxdb:1.12.2
     container_name: influxdb
     ports:
       - "8086:8086"
@@ -113,7 +111,7 @@ services:
       - fluentd
   # time series database that scrapes metrics
   prometheus:
-    image: quay.io/prometheus/prometheus:v3.1.0
+    image: prom/prometheus:v3.8.1
     container_name: prometheus
     ports:
       - "9090:9090"
@@ -129,7 +127,7 @@ services:
       - fluentd
   # collect metrics and expose or write to another server
   telegraf:
-    image: telegraf:latest
+    image: telegraf:1.37.0
     container_name: telegraf
     environment:
       - HOST_PROC=/host/proc

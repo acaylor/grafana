@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "platform": "local",
+  "repositories": ["."],
+  "enabledManagers": ["docker-compose"],
+  "gitAuthor": "Renovate Bot <renovate@localhost>",
+  "onboarding": false,
+  "requireConfig": false,
+  "dryRun": "full",
+  "docker-compose": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["docker-compose"],
+      "matchDepTypes": ["service"],
+      "enabled": true
+    }
+  ]
+}
+
