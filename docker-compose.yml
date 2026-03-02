@@ -111,7 +111,7 @@ services:
       - fluentd
   # time series database that scrapes metrics
   prometheus:
-    image: prom/prometheus:v3.8.1
+    image: prom/prometheus:v3.10.0
     container_name: prometheus
     ports:
       - "9090:9090"
