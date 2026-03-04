@@ -13,6 +13,12 @@
   "__requires": [
     {
       "type": "panel",
+      "id": "bargauge",
+      "name": "Bar gauge",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "gauge",
       "name": "Gauge",
       "version": ""
@@ -21,13 +27,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "12.3.0"
-    },
-    {
-      "type": "panel",
-      "id": "operato-windrose-panel",
-      "name": "Operato Windrose",
-      "version": "1.2.0"
+      "version": "12.4.0"
     },
     {
       "type": "datasource",
@@ -67,7 +67,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
   "links": [],
   "panels": [
     {
@@ -128,7 +127,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 4,
         "x": 0,
         "y": 1
@@ -149,7 +148,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -237,7 +236,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -265,7 +264,6 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -276,12 +274,20 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "text",
                 "value": 0
               },
               {
+                "color": "green",
+                "value": 1
+              },
+              {
+                "color": "yellow",
+                "value": 15
+              },
+              {
                 "color": "red",
-                "value": 80
+                "value": 30
               }
             ]
           },
@@ -313,7 +319,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -339,7 +345,6 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -399,7 +404,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -411,7 +416,6 @@
           "exemplar": false,
           "expr": "homeassistant_sensor_unit_uvu0x20index",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "{{friendly_name}}",
@@ -428,10 +432,107 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
+      "description": "Consumer sensor measured in W/m²",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              },
+              {
+                "color": "dark-purple",
+                "value": 148
+              },
+              {
+                "color": "super-light-purple",
+                "value": 200
+              },
+              {
+                "color": "blue",
+                "value": 400
+              },
+              {
+                "color": "super-light-blue",
+                "value": 700
+              },
+              {
+                "color": "#EAB839",
+                "value": 1000
+              },
+              {
+                "color": "red",
+                "value": 1100
+              }
+            ]
+          },
+          "unit": "Wm2"
+        },
+        "overrides": []
+      },
       "gridPos": {
-        "h": 8,
-        "w": 6,
+        "h": 4,
+        "w": 3,
         "x": 13,
+        "y": 1
+      },
+      "id": 32,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "homeassistant_sensor_irradiance_w_per_mu0xb2{entity=\"sensor.st_00157721_irradiance\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Solar irradiance",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 5,
+        "x": 16,
         "y": 1
       },
       "id": 33,
@@ -450,9 +551,13 @@
         "windSpeedUnit": "ms",
         "windroseLabels": "compass"
       },
-      "pluginVersion": "1.2.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "disableTextWrap": false,
           "editorMode": "code",
           "expr": "homeassistant_sensor_wind_speed_mph{entity=\"sensor.st_00157721_wind_speed\"} * 0.44704",
@@ -461,11 +566,7 @@
           "legendFormat": "wind_speed",
           "range": true,
           "refId": "A",
-          "useBackend": false,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          }
+          "useBackend": false
         },
         {
           "datasource": {
@@ -476,7 +577,6 @@
           "editorMode": "code",
           "expr": "homeassistant_sensor_wind_direction_u0xb0{entity=\"sensor.st_00157721_wind_direction\"}",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "wind_direction",
@@ -513,7 +613,6 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -538,7 +637,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 3,
         "x": 7,
         "y": 4
@@ -561,7 +660,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -579,6 +678,7 @@
           "useBackend": false
         }
       ],
+      "title": "Energy Used Today",
       "type": "stat"
     },
     {
@@ -644,7 +744,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -672,7 +772,6 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -717,7 +816,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -729,7 +828,6 @@
           "exemplar": false,
           "expr": "homeassistant_sensor_pressure_inhg{entity=\"sensor.st_00157721_air_pressure\"}",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "{{friendly_name}}",
@@ -742,12 +840,316 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Outdoor air density from weather station in kg/m³",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 4,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "kg/m³"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 13,
+        "y": 5
+      },
+      "id": 53,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_unit_kg_per_mu0xb3",
+          "instant": true,
+          "legendFormat": "Air Density",
+          "refId": "A"
+        }
+      ],
+      "title": "Air Density",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Total precipitation today from weather station",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "blue",
+                "value": 0.1
+              },
+              {
+                "color": "dark-blue",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "inch"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 7,
+        "y": 7
+      },
+      "id": 51,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_precipitation_in",
+          "instant": true,
+          "legendFormat": "Precipitation Today",
+          "refId": "A"
+        }
+      ],
+      "title": "Precipitation Today",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Average distance of lightning strikes detected by weather station. 0 = no strikes detected.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "None"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "orange",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "lengthmi"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 10,
+        "y": 9
+      },
+      "id": 52,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_distance_mi",
+          "instant": true,
+          "legendFormat": "Lightning Distance",
+          "refId": "A"
+        }
+      ],
+      "title": "Lightning Distance",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Current rainfall rate from weather station",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "blue",
+                "value": 0.1
+              },
+              {
+                "color": "dark-blue",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "iph"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 4,
+        "y": 10
+      },
+      "id": 50,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_precipitation_intensity_in_per_h",
+          "instant": true,
+          "legendFormat": "Rain Rate",
+          "refId": "A"
+        }
+      ],
+      "title": "Rain Rate",
+      "type": "stat"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 13
       },
       "id": 30,
       "panels": [],
@@ -797,7 +1199,7 @@
         "h": 8,
         "w": 10,
         "x": 0,
-        "y": 11
+        "y": 14
       },
       "id": 6,
       "options": {
@@ -815,7 +1217,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -844,7 +1246,6 @@
           "exemplar": false,
           "expr": "homeassistant_sensor_temperature_celsius{entity=\"sensor.bedroom_temperature\"}",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "{{friendly_name}}",
@@ -862,7 +1263,6 @@
           "exemplar": false,
           "expr": "homeassistant_sensor_temperature_celsius{entity=\"sensor.living_room_temperature\"}",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "{{friendly_name}}",
@@ -880,7 +1280,6 @@
           "exemplar": false,
           "expr": "homeassistant_sensor_temperature_celsius{entity=\"sensor.office_temperature\"}",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "{{friendly_name}}",
@@ -898,7 +1297,6 @@
           "exemplar": false,
           "expr": "homeassistant_sensor_temperature_celsius{entity=\"sensor.basement_2_temperature\"}",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "Guest Room Temp",
@@ -915,48 +1313,39 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Consumer sensor measured in W/m²",
+      "description": "Average indoor humidity for all sensors",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "text",
+                "color": "purple",
                 "value": 0
               },
               {
-                "color": "dark-purple",
-                "value": 148
+                "color": "#6ED0E0",
+                "value": 25
               },
               {
-                "color": "super-light-purple",
-                "value": 200
-              },
-              {
-                "color": "blue",
-                "value": 400
-              },
-              {
-                "color": "super-light-blue",
-                "value": 700
+                "color": "green",
+                "value": 33
               },
               {
                 "color": "#EAB839",
-                "value": 1000
+                "value": 57
               },
               {
                 "color": "red",
-                "value": 1100
+                "value": 66
               }
             ]
           },
-          "unit": "Wm2"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -964,15 +1353,13 @@
         "h": 4,
         "w": 3,
         "x": 10,
-        "y": 11
+        "y": 14
       },
-      "id": 32,
+      "id": 5,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
-        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -980,11 +1367,11 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -994,19 +1381,18 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "homeassistant_sensor_irradiance_w_per_mu0xb2{entity=\"sensor.st_00157721_irradiance\"}",
+          "expr": "avg(homeassistant_sensor_humidity_percent{entity!=\"sensor.st_00157721_humidity\"})",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": true,
-          "legendFormat": "__auto",
+          "legendFormat": "{{friendly_name}}",
           "range": false,
           "refId": "A",
           "useBackend": false
         }
       ],
-      "title": "Solar irradiance",
-      "type": "stat"
+      "title": "Indoor Humidity",
+      "type": "gauge"
     },
     {
       "datasource": {
@@ -1041,7 +1427,7 @@
         "h": 4,
         "w": 3,
         "x": 13,
-        "y": 11
+        "y": 14
       },
       "id": 20,
       "options": {
@@ -1061,7 +1447,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -1079,6 +1465,7 @@
           "useBackend": false
         }
       ],
+      "title": "Water Used Today",
       "type": "stat"
     },
     {
@@ -1124,10 +1511,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 4,
         "x": 16,
-        "y": 11
+        "y": 14
       },
       "id": 13,
       "options": {
@@ -1145,7 +1532,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -1156,7 +1543,6 @@
           "editorMode": "builder",
           "expr": "avg(homeassistant_sensor_voltage_v{entity!=\"sensor.st_00157721_battery_voltage\"})",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "{{friendly_name}}",
@@ -1211,10 +1597,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 4,
         "x": 20,
-        "y": 11
+        "y": 14
       },
       "id": 4,
       "options": {
@@ -1232,7 +1618,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -1259,7 +1645,6 @@
           "editorMode": "builder",
           "expr": "avg(apcupsd_line_volts)",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "{{ups}}",
@@ -1276,53 +1661,52 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Average indoor humidity for all sensors",
+      "description": "Consumer sensor measured in parts-per-million",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "green",
                 "value": 0
               },
               {
-                "color": "#6ED0E0",
-                "value": 25
-              },
-              {
-                "color": "green",
-                "value": 33
-              },
-              {
                 "color": "#EAB839",
-                "value": 57
+                "value": 1000
+              },
+              {
+                "color": "orange",
+                "value": 1250
               },
               {
                 "color": "red",
-                "value": 66
+                "value": 1450
               }
             ]
           },
-          "unit": "percent"
+          "unit": "ppm"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 3,
         "x": 10,
-        "y": 15
+        "y": 18
       },
-      "id": 5,
+      "id": 29,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1330,11 +1714,11 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -1344,7 +1728,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "avg(homeassistant_sensor_humidity_percent{entity!=\"sensor.st_00157721_humidity\"})",
+          "expr": "homeassistant_sensor_carbon_dioxide_ppm",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": true,
@@ -1354,8 +1738,8 @@
           "useBackend": false
         }
       ],
-      "title": "Indoor Humidity",
-      "type": "gauge"
+      "title": "Carbon Dioxide Concentration",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -1387,10 +1771,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 3,
         "x": 13,
-        "y": 15
+        "y": 18
       },
       "id": 21,
       "options": {
@@ -1410,7 +1794,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -1428,6 +1812,7 @@
           "useBackend": false
         }
       ],
+      "title": "Water Flow Rate",
       "type": "stat"
     },
     {
@@ -1476,7 +1861,7 @@
         "h": 4,
         "w": 3,
         "x": 13,
-        "y": 18
+        "y": 22
       },
       "id": 28,
       "options": {
@@ -1496,7 +1881,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -1508,7 +1893,6 @@
           "exemplar": false,
           "expr": "homeassistant_sensor_unit_bq_per_mu0xb3",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "{{friendly_name}}",
@@ -1521,17 +1905,171 @@
       "type": "stat"
     },
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 10,
+      "panels": [],
+      "title": "Indoor History",
+      "type": "row"
+    },
+    {
       "datasource": {
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Consumer sensor measured in parts-per-million",
+      "description": "Rate of all water usage in home represented in gallons/min",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "flowgpm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      },
+      "id": 22,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "homeassistant_sensor_volume_flow_rate_gal_per_min",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "{{friendly_name}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Rate of water usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Sampled levels of carbon dioxide from a sensor.",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "fieldMinMax": false,
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -1542,15 +2080,11 @@
               },
               {
                 "color": "#EAB839",
-                "value": 1000
-              },
-              {
-                "color": "orange",
-                "value": 1250
+                "value": 1001
               },
               {
                 "color": "red",
-                "value": 1450
+                "value": 1101
               }
             ]
           },
@@ -1559,30 +2093,30 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 10,
-        "y": 20
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 27
       },
-      "id": 29,
+      "id": 25,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
+        "legend": {
           "calcs": [
-            "lastNotNull"
+            "lastNotNull",
+            "mean",
+            "max"
           ],
-          "fields": "",
-          "values": false
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -1591,709 +2125,132 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "exemplar": false,
-          "expr": "homeassistant_sensor_carbon_dioxide_ppm",
+          "expr": "sum by(friendly_name) (homeassistant_sensor_carbon_dioxide_ppm)",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
-          "instant": true,
           "legendFormat": "{{friendly_name}}",
-          "range": false,
+          "range": true,
           "refId": "A",
           "useBackend": false
         }
       ],
-      "title": "Carbon Dioxide Concentration",
-      "type": "stat"
+      "title": "CO₂ PPM",
+      "type": "timeseries"
     },
     {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 24
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
       },
-      "id": 10,
-      "panels": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
           },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "purple",
-                "mode": "fixed"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 51,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "normal"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "watt"
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
             },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 10,
-            "x": 0,
-            "y": 55
-          },
-          "id": 7,
-          "options": {
-            "legend": {
-              "calcs": [
-                "lastNotNull",
-                "mean",
-                "max"
-              ],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
             },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
           },
-          "pluginVersion": "12.1.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
               },
-              "disableTextWrap": false,
-              "editorMode": "builder",
-              "expr": "homeassistant_sensor_power_w{entity=\"sensor.totalusage_power_minute_average\"}",
-              "fullMetaSearch": false,
-              "hide": false,
-              "includeNullMetadata": true,
-              "instant": false,
-              "legendFormat": "{{friendly_name}}",
-              "range": true,
-              "refId": "A",
-              "useBackend": false
-            }
-          ],
-          "title": "Estimated home power usage",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "volt"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 10,
-            "y": 55
-          },
-          "id": 2,
-          "options": {
-            "legend": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "12.1.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "disableTextWrap": false,
-              "editorMode": "builder",
-              "expr": "avg_over_time(apcupsd_line_volts[5m])",
-              "fullMetaSearch": false,
-              "hide": false,
-              "includeNullMetadata": true,
-              "instant": false,
-              "legendFormat": "{{ups}}",
-              "range": true,
-              "refId": "B",
-              "useBackend": false
-            }
-          ],
-          "title": "UPS input voltage",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "description": "Rate of all water usage in home represented in gallons/min",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "blue",
-                "mode": "fixed"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "flowgpm"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 10,
-            "x": 0,
-            "y": 65
-          },
-          "id": 22,
-          "options": {
-            "legend": {
-              "calcs": [
-                "lastNotNull",
-                "max"
-              ],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "12.1.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "disableTextWrap": false,
-              "editorMode": "builder",
-              "expr": "homeassistant_sensor_volume_flow_rate_gal_per_min",
-              "fullMetaSearch": false,
-              "includeNullMetadata": true,
-              "legendFormat": "{{friendly_name}}",
-              "range": true,
-              "refId": "A",
-              "useBackend": false
-            }
-          ],
-          "title": "Rate of water usage",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "description": "Sampled levels of carbon dioxide from a sensor.",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "#EAB839",
-                    "value": 1001
-                  },
-                  {
-                    "color": "red",
-                    "value": 1101
-                  }
-                ]
-              },
-              "unit": "ppm"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 10,
-            "y": 65
-          },
-          "id": 25,
-          "options": {
-            "legend": {
-              "calcs": [
-                "lastNotNull",
-                "mean",
-                "max"
-              ],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "12.1.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "disableTextWrap": false,
-              "editorMode": "builder",
-              "expr": "sum by(friendly_name) (homeassistant_sensor_carbon_dioxide_ppm)",
-              "fullMetaSearch": false,
-              "includeNullMetadata": true,
-              "legendFormat": "{{friendly_name}}",
-              "range": true,
-              "refId": "A",
-              "useBackend": false
-            }
-          ],
-          "title": "C02 PPM",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "celsius"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 0,
-            "y": 73
-          },
-          "id": 1,
-          "options": {
-            "legend": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "12.1.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "disableTextWrap": false,
-              "editorMode": "builder",
-              "expr": "avg_over_time(homeassistant_sensor_temperature_celsius{friendly_name!~\"Upsilon.+|ST-.+|Flo.+\"}[5m])",
-              "fullMetaSearch": false,
-              "includeNullMetadata": true,
-              "instant": false,
-              "legendFormat": "{{friendly_name}}",
-              "range": true,
-              "refId": "A",
-              "useBackend": false
-            }
-          ],
-          "title": "Indoor Temperatures",
-          "transformations": [
-            {
-              "id": "renameByRegex",
-              "options": {
-                "regex": "/ Temperature/",
-                "renamePattern": ""
+              {
+                "color": "red",
+                "value": 80
               }
-            }
-          ],
-          "type": "timeseries"
+            ]
+          },
+          "unit": "celsius"
         },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 37
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.3",
+      "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": 0
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "percent"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 12,
-            "x": 12,
-            "y": 73
-          },
-          "id": 3,
-          "options": {
-            "legend": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "12.1.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "disableTextWrap": false,
-              "editorMode": "builder",
-              "expr": "avg_over_time(homeassistant_sensor_humidity_percent{entity!=\"sensor.st_00157721_humidity\"}[5m])",
-              "fullMetaSearch": false,
-              "includeNullMetadata": true,
-              "instant": false,
-              "legendFormat": "{{friendly_name}}",
-              "range": true,
-              "refId": "A",
-              "useBackend": false
-            }
-          ],
-          "title": "Humidity",
-          "transformations": [
-            {
-              "id": "renameByRegex",
-              "options": {
-                "regex": "/ Humidity/",
-                "renamePattern": ""
-              }
-            }
-          ],
-          "type": "timeseries"
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "avg_over_time(homeassistant_sensor_temperature_celsius{friendly_name!~\"Upsilon.+|ST-.+|Flo.+\"}[5m])",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{friendly_name}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Historical charts - home",
-      "type": "row"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 25
-      },
-      "id": 26,
-      "panels": [],
-      "title": "Historical charts - outdoors",
-      "type": "row"
+      "title": "Indoor Temperatures",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "/ Temperature/",
+            "renamePattern": ""
+          }
+        }
+      ],
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -2346,6 +2303,362 @@
               {
                 "color": "green",
                 "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 37
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "avg_over_time(homeassistant_sensor_humidity_percent{entity!=\"sensor.st_00157721_humidity\"}[5m])",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{friendly_name}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Humidity",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "/ Humidity/",
+            "renamePattern": ""
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Historical radon concentration in Bq/m³",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "yellow",
+                "value": 100
+              },
+              {
+                "color": "orange",
+                "value": 148
+              },
+              {
+                "color": "red",
+                "value": 200
+              },
+              {
+                "color": "dark-purple",
+                "value": 400
+              }
+            ]
+          },
+          "unit": "radbq"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 47
+      },
+      "id": 35,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "builder",
+          "expr": "homeassistant_sensor_unit_bq_per_mu0xb3",
+          "legendFormat": "{{friendly_name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Radon Concentration",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Historical CO₂ concentration in parts-per-million",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "#EAB839",
+                "value": 1000
+              },
+              {
+                "color": "orange",
+                "value": 1250
+              },
+              {
+                "color": "red",
+                "value": 1450
+              }
+            ]
+          },
+          "unit": "ppm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 47
+      },
+      "id": 36,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(friendly_name) (homeassistant_sensor_carbon_dioxide_ppm)",
+          "legendFormat": "{{friendly_name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CO₂ Concentration History",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 26,
+      "panels": [],
+      "title": "Outdoor History",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
               }
             ]
           },
@@ -2357,12 +2670,16 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 58
       },
       "id": 12,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2373,7 +2690,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -2456,12 +2773,16 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 26
+        "y": 58
       },
       "id": 27,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2472,7 +2793,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -2557,15 +2878,19 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 12,
         "x": 0,
-        "y": 36
+        "y": 68
       },
       "id": 16,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2576,7 +2901,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -2638,7 +2963,7 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "line"
             }
           },
           "mappings": [],
@@ -2650,8 +2975,12 @@
                 "value": 0
               },
               {
+                "color": "yellow",
+                "value": 20
+              },
+              {
                 "color": "red",
-                "value": 80
+                "value": 35
               }
             ]
           },
@@ -2660,15 +2989,19 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 12,
         "x": 12,
-        "y": 36
+        "y": 68
       },
       "id": 15,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2679,7 +3012,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -2759,15 +3092,19 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 12,
-        "x": 12,
-        "y": 44
+        "x": 0,
+        "y": 78
       },
       "id": 19,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2778,7 +3115,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -2789,7 +3126,6 @@
           "editorMode": "builder",
           "expr": "homeassistant_sensor_pressure_inhg{entity=\"sensor.st_00157721_air_pressure\"}",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "{{friendly_name}}",
@@ -2799,6 +3135,1178 @@
         }
       ],
       "title": "Atmospheric pressure",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Historical precipitation rate and daily total from weather station",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "iph"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Precipitation Today"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "unit",
+                "value": "inch"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 78
+      },
+      "id": 54,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_precipitation_intensity_in_per_h",
+          "legendFormat": "Rain Rate",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_precipitation_in",
+          "legendFormat": "Precipitation Today",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Precipitation History",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 88
+      },
+      "id": 60,
+      "panels": [],
+      "title": "Energy",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Total home energy consumed today",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "yellow",
+                "value": 20
+              },
+              {
+                "color": "red",
+                "value": 40
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 89
+      },
+      "id": 61,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_energy_kwh{entity=\"sensor.totalusage_energy_today\"}",
+          "instant": true,
+          "legendFormat": "Total Used Today",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Energy Used Today",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Total solar energy produced today across both arrays",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 89
+      },
+      "id": 62,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "sum(homeassistant_sensor_energy_kwh{entity=~\"sensor.solar_energy_today|sensor.solar2_energy_today\"})",
+          "instant": true,
+          "legendFormat": "Solar Today",
+          "refId": "A"
+        }
+      ],
+      "title": "Solar Produced Today",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Energy imported from the grid today",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 89
+      },
+      "id": 63,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_energy_kwh{entity=\"sensor.mainsfromgrid_energy_today\"}",
+          "instant": true,
+          "legendFormat": "From Grid Today",
+          "refId": "A"
+        }
+      ],
+      "title": "Grid Import Today",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Energy exported back to the grid today",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 89
+      },
+      "id": 64,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_energy_kwh{entity=\"sensor.mainstogrid_energy_today\"}",
+          "instant": true,
+          "legendFormat": "To Grid Today",
+          "refId": "A"
+        }
+      ],
+      "title": "Grid Export Today",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Total home energy consumed this month",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 92
+      },
+      "id": 65,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_energy_kwh{entity=\"sensor.totalusage_energy_this_month\"}",
+          "instant": true,
+          "legendFormat": "Total This Month",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Energy This Month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Total solar produced this month across both arrays",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 92
+      },
+      "id": 66,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "sum(homeassistant_sensor_energy_kwh{entity=~\"sensor.solar_energy_this_month|sensor.solar2_energy_this_month\"})",
+          "instant": true,
+          "legendFormat": "Solar This Month",
+          "refId": "A"
+        }
+      ],
+      "title": "Solar Produced This Month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Grid imported this month",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 92
+      },
+      "id": 67,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_energy_kwh{entity=\"sensor.mainsfromgrid_energy_this_month\"}",
+          "instant": true,
+          "legendFormat": "From Grid This Month",
+          "refId": "A"
+        }
+      ],
+      "title": "Grid Import This Month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Grid exported this month",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 92
+      },
+      "id": 68,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_energy_kwh{entity=\"sensor.mainstogrid_energy_this_month\"}",
+          "instant": true,
+          "legendFormat": "To Grid This Month",
+          "refId": "A"
+        }
+      ],
+      "title": "Grid Export This Month",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Live power draw per circuit from Emporia Vue",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 95
+      },
+      "id": 69,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_power_w{entity=~\"sensor.totalusage_power_minute_average|sensor.solar_power_minute_average|sensor.solar2_power_minute_average|sensor.front_receptacle_power_minute_average|sensor.dryer_power_minute_average_3|sensor.range_power_minute_average_3|sensor.ev_charger_power_minute_average|sensor.balance_power_minute_average\"}",
+          "legendFormat": "{{friendly_name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Live Power by Circuit",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 51,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 105
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "mean",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "homeassistant_sensor_power_w{entity=\"sensor.totalusage_power_minute_average\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{friendly_name}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Estimated home power usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 105
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "avg_over_time(apcupsd_line_volts[5m])",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{ups}}",
+          "range": true,
+          "refId": "B",
+          "useBackend": false
+        }
+      ],
+      "title": "UPS input voltage",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 115
+      },
+      "id": 80,
+      "panels": [],
+      "title": "Device Batteries",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Battery levels for all wireless sensors and devices. Red = below 20%, yellow = below 40%.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 20
+              },
+              {
+                "color": "yellow",
+                "value": 40
+              },
+              {
+                "color": "green",
+                "value": 60
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 116
+      },
+      "id": 81,
+      "options": {
+        "displayMode": "gradient",
+        "legendDisplayMode": "hidden",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "text": {},
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_battery_percent",
+          "instant": true,
+          "legendFormat": "{{friendly_name}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Device Battery Levels",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Battery history over time — useful for tracking drain rate and predicting when batteries need replacing.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 20
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 124
+      },
+      "id": 82,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "asc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "homeassistant_sensor_battery_percent",
+          "legendFormat": "{{friendly_name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Battery History",
       "type": "timeseries"
     }
   ],
@@ -2819,6 +4327,6 @@
   "timezone": "browser",
   "title": "Home",
   "uid": "cdm900h35zmyoa",
-  "version": 5,
+  "version": 17,
   "weekStart": ""
 }

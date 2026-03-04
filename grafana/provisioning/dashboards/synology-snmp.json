@@ -7,22 +7,10 @@
       "type": "datasource",
       "pluginId": "prometheus",
       "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_EXPRESSION",
-      "label": "Expression",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "__expr__"
     }
   ],
   "__elements": {},
   "__requires": [
-    {
-      "type": "datasource",
-      "id": "__expr__",
-      "version": "1.0.0"
-    },
     {
       "type": "panel",
       "id": "gauge",
@@ -33,7 +21,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "12.3.0"
+      "version": "12.4.0"
     },
     {
       "type": "datasource",
@@ -86,7 +74,7 @@
       },
       "id": 4,
       "panels": [],
-      "title": "Values",
+      "title": "System Overview",
       "type": "row"
     },
     {
@@ -147,7 +135,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
@@ -224,7 +212,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
@@ -248,7 +236,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Average load average on disks",
+      "description": "Per-disk I/O load average",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -302,14 +290,14 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(storageIOLA{job=\"$job\",instance=\"$Server\"})",
+          "expr": "storageIOLA{job=\"$job\",instance=\"$Server\"}",
           "instant": true,
-          "legendFormat": "__auto",
+          "legendFormat": "{{storageIOIndex}}",
           "range": false,
           "refId": "A",
           "datasource": {
@@ -318,7 +306,7 @@
           }
         }
       ],
-      "title": "Disk Load average",
+      "title": "Disk Load Average",
       "type": "gauge"
     },
     {
@@ -384,7 +372,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
@@ -402,6 +390,175 @@
         }
       ],
       "title": "System Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 13,
+        "y": 1
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^version$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "version{job=\"$job\"}",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          }
+        }
+      ],
+      "title": "DSM Version",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "orange",
+                  "index": 0,
+                  "text": "Update Available"
+                },
+                "2": {
+                  "color": "green",
+                  "index": 1,
+                  "text": "Up to Date"
+                },
+                "3": {
+                  "color": "yellow",
+                  "index": 2,
+                  "text": "Connecting"
+                },
+                "4": {
+                  "color": "red",
+                  "index": 3,
+                  "text": "Disconnected"
+                },
+                "5": {
+                  "color": "red",
+                  "index": 4,
+                  "text": "Error"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 17,
+        "y": 1
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "upgradeAvailable{job=\"$job\",instance=\"$Server\"}",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          }
+        }
+      ],
+      "title": "DSM Update Status",
       "type": "stat"
     },
     {
@@ -542,7 +699,7 @@
         "h": 4,
         "w": 4,
         "x": 13,
-        "y": 1
+        "y": 3
       },
       "id": 15,
       "options": {
@@ -562,15 +719,15 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "raidStatus{job=\"$job\",instance=\"$Server\",raidIndex=\"0\"}",
+          "expr": "raidStatus{job=\"$job\",instance=\"$Server\"}",
           "format": "time_series",
           "instant": true,
-          "legendFormat": "__auto",
+          "legendFormat": "RAID {{raidIndex}}",
           "range": false,
           "refId": "A",
           "datasource": {
@@ -635,7 +792,7 @@
         "h": 4,
         "w": 4,
         "x": 17,
-        "y": 1
+        "y": 4
       },
       "id": 14,
       "options": {
@@ -655,7 +812,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
@@ -736,7 +893,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
@@ -816,7 +973,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
@@ -834,99 +991,6 @@
       ],
       "title": "Device Temperature",
       "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [
-            {
-              "options": {
-                "1": {
-                  "index": 0,
-                  "text": "Available"
-                },
-                "2": {
-                  "index": 1,
-                  "text": "No Update"
-                },
-                "3": {
-                  "index": 2,
-                  "text": "Connecting"
-                },
-                "4": {
-                  "index": 3,
-                  "text": "Disconnected"
-                },
-                "5": {
-                  "index": 4,
-                  "text": "Error"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 10,
-        "y": 5
-      },
-      "id": 13,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.3.0",
-      "targets": [
-        {
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "upgradeAvailable{job=\"$job\",instance=\"$Server\"}",
-          "format": "time_series",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          }
-        }
-      ],
-      "title": "DSM Update Status",
-      "type": "stat"
     },
     {
       "collapsed": false,
@@ -1012,18 +1076,22 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
           "hideZeros": false,
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -1031,7 +1099,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "cpuUtilization{job=\"$job\"}",
+          "expr": "cpuUtilization{job=\"$job\",instance=\"$Server\"}",
           "legendFormat": "CPU Usage",
           "range": true,
           "refId": "A"
@@ -1111,18 +1179,22 @@
       "id": 2,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
           "hideZeros": false,
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "datasource": {
@@ -1130,8 +1202,8 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "memUtilization{job=\"$job\"}",
-          "legendFormat": "CPU Usage",
+          "expr": "memUtilization{job=\"$job\",instance=\"$Server\"}",
+          "legendFormat": "Memory Usage",
           "range": true,
           "refId": "A"
         }
@@ -1211,18 +1283,22 @@
       "id": 16,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
           "hideZeros": false,
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
           "editorMode": "code",
@@ -1242,7 +1318,6 @@
           },
           "editorMode": "code",
           "expr": "rate(storageIONWritten{job=\"$job\",instance=\"$Server\"}[$__rate_interval])",
-          "hide": false,
           "legendFormat": "Disk writes: {{storageIOIndex}}",
           "range": true,
           "refId": "B"
@@ -1324,6 +1399,8 @@
       "options": {
         "legend": {
           "calcs": [
+            "mean",
+            "max",
             "lastNotNull"
           ],
           "displayMode": "list",
@@ -1332,23 +1409,22 @@
         },
         "tooltip": {
           "hideZeros": false,
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.0",
       "targets": [
         {
-          "editorMode": "code",
-          "expr": "raidTotalSize{job=\"$job\",instance=\"$Server\",raidIndex=\"0\"}",
-          "hide": false,
-          "legendFormat": "Total Size",
-          "range": true,
-          "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
-          }
+          },
+          "editorMode": "code",
+          "expr": "raidTotalSize{job=\"$job\",instance=\"$Server\"}",
+          "legendFormat": "Total - RAID {{raidIndex}}",
+          "range": true,
+          "refId": "A"
         },
         {
           "datasource": {
@@ -1356,31 +1432,973 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "raidFreeSize{job=\"$job\",instance=\"$Server\",raidIndex=\"0\"}",
-          "hide": true,
-          "instant": false,
-          "legendFormat": "Free Size",
+          "expr": "raidFreeSize{job=\"$job\",instance=\"$Server\"}",
+          "legendFormat": "Free - RAID {{raidIndex}}",
           "range": true,
           "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
-          },
-          "expression": "$A - $B",
-          "hide": false,
-          "refId": "usage",
-          "type": "math"
         }
       ],
       "title": "RAID usage",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
+      "id": 30,
+      "panels": [],
+      "title": "Hardware Health",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Synology NAS model and serial number",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 30
+      },
+      "id": 31,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "modelName{job=\"$job\",instance=\"$Server\"}",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "{{modelName}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Device Info",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Power supply status. Green = Normal, Red = Failed.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Normal"
+                },
+                "2": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Failed"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 30
+      },
+      "id": 32,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "powerStatus{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "Power",
+          "refId": "A"
+        }
+      ],
+      "title": "Power Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Thermal status as reported by DSM.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Normal"
+                },
+                "2": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Overheating"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 30
+      },
+      "id": 33,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "thermalStatus{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "Thermal",
+          "refId": "A"
+        }
+      ],
+      "title": "Thermal Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "CPU fan status. 1=Normal, 2=Failed.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Normal"
+                },
+                "2": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Failed"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 30
+      },
+      "id": 34,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "cpuFanStatus{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "CPU Fan",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Fan Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "System fan status. 1=Normal, 2=Failed.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Normal"
+                },
+                "2": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Failed"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 30
+      },
+      "id": 35,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "systemFanStatus{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "System Fan",
+          "refId": "A"
+        }
+      ],
+      "title": "System Fan Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Bad sectors per disk. Any value above 0 is a serious warning of imminent disk failure.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 33
+      },
+      "id": 36,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "diskBadSector{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "Disk {{diskIndex}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Bad Sectors per Disk",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Disk RAID membership status per disk. 1=Normal, 2=Initialized, 3=NotInitialized, 4=SystemPartition, 5=Crashed.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Normal"
+                },
+                "2": {
+                  "color": "blue",
+                  "index": 1,
+                  "text": "Initialized"
+                },
+                "3": {
+                  "color": "yellow",
+                  "index": 2,
+                  "text": "Not Initialized"
+                },
+                "4": {
+                  "color": "blue",
+                  "index": 3,
+                  "text": "System Partition"
+                },
+                "5": {
+                  "color": "red",
+                  "index": 4,
+                  "text": "Crashed"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 33
+      },
+      "id": 37,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "diskStatus{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "Disk {{diskIndex}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Disk Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Disk retry and identify failure counts per disk. Elevated retries are an early warning of failure before SMART flags it.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 33
+      },
+      "id": 38,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "diskRetry{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "Retry Disk {{diskIndex}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "diskIdentifyFail{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "Identify Fail Disk {{diskIndex}}",
+          "refId": "B"
+        }
+      ],
+      "title": "Disk Retry & Identify Fail",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      },
+      "id": 39,
+      "panels": [],
+      "title": "Storage Capacity",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Free space as a percentage of total RAID volume size.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 10
+              },
+              {
+                "color": "yellow",
+                "value": 20
+              },
+              {
+                "color": "green",
+                "value": 40
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 38
+      },
+      "id": 40,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "raidFreeSize{job=\"$job\",instance=\"$Server\"} / raidTotalSize{job=\"$job\",instance=\"$Server\"} * 100",
+          "instant": true,
+          "legendFormat": "RAID {{raidIndex}}",
+          "refId": "A"
+        }
+      ],
+      "title": "RAID Free Space %",
+      "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 46
+      },
+      "id": 41,
+      "panels": [],
+      "title": "Network Services",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Active connected users per service protocol (CIFS/SMB, NFS, FTP, SSH, HTTP, etc).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "blue",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 47
+      },
+      "id": 42,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "serviceUsers{job=\"$job\",instance=\"$Server\"} * on(serviceInfoIndex) group_left(serviceName) serviceName{job=\"$job\",instance=\"$Server\"}",
+          "instant": true,
+          "legendFormat": "{{serviceName}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Active Service Users",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 55
+      },
+      "id": 43,
+      "panels": [],
+      "title": "Volume I/O",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Read and write throughput at the volume/share level (spaceIO metrics).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 56
+      },
+      "id": 44,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "-rate(spaceIONRead{job=\"$job\",instance=\"$Server\"}[$__rate_interval])",
+          "legendFormat": "Read {{spaceIOIndex}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "rate(spaceIONWritten{job=\"$job\",instance=\"$Server\"}[$__rate_interval])",
+          "legendFormat": "Write {{spaceIOIndex}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Volume I/O Throughput (spaceIO)",
       "type": "timeseries"
     }
   ],
   "preload": false,
   "schemaVersion": 42,
-  "tags": [],
+  "tags": [
+    "synology",
+    "snmp",
+    "nas"
+  ],
   "templating": {
     "list": [
       {
@@ -1396,6 +2414,7 @@
         },
         "refresh": 1,
         "regex": "",
+        "regexApplyTo": "value",
         "type": "query"
       },
       {
@@ -1410,19 +2429,19 @@
         },
         "refresh": 1,
         "regex": "",
+        "regexApplyTo": "value",
         "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Synology SNMP Exporter",
   "uid": "adlcjw2",
-  "version": 2,
-  "weekStart": "",
-  "id": null
+  "version": 9,
+  "weekStart": ""
 }
