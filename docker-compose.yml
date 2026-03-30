@@ -91,7 +91,7 @@ services:
       - fluentd
   # time series database that receives and stores metrics
   influxdb:
-    image: influxdb:1.12.2
+    image: influxdb:1.12.3
     container_name: influxdb
     ports:
       - "8086:8086"
