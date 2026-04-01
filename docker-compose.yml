@@ -33,7 +33,7 @@ services:
       - fluentd
   # receive logs from fluentd and output to grafana loki
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.142.0
+    image: otel/opentelemetry-collector-contrib:0.149.0
     container_name: otelcol
     hostname: otelcol
     ports:
