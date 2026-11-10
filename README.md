@@ -33,6 +33,24 @@ Look at the container logs live:
 docker compose logs -f
 ```
 
+### Running the app locally
+
+The app uses Node.js 26 LTS and pnpm 12.18.0. Versions are pinned in
+`mise.toml` for local development and in `app/Dockerfile` for containers.
+
+With [mise](https://mise.jdx.dev/) installed, run from the repository root:
+
+```bash
+mise install
+cd app
+mise exec -- pnpm install --frozen-lockfile
+mise exec -- pnpm start
+```
+
+The app listens at <http://localhost:3001>, with metrics at `/metrics`.
+Commit `app/pnpm-lock.yaml` when dependencies change; use pnpm rather than npm
+for app dependencies.
+
 ### Accessing the stack
 
 Each container should expose the ports to the localhost interface so you can test any of the applications easily. Here are some of the ports and api routes of note:
