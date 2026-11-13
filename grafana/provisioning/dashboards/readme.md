@@ -62,6 +62,15 @@ each dashboard.
 
 - **Provisioning:** the files load with the provider in `default.yaml` like the other dashboards here.
 
+## launchd services (macOS)
+
+`launchd-services-macos.json` shows the state of launchd services on a Mac:
+service up/down, collector freshness, restarts (PID changes), last exit status,
+and a current status table. It reads `launchd_service_up`,
+`launchd_service_pid`, and `launchd_service_last_exit_status` from a
+node_exporter textfile collector that writes `launchd.prom`. Pick the
+Prometheus data source with the `datasource` variable at the top.
+
 ## Provisioning
 
 The file `default.yaml` helps provision Grafana with these dashboards. See the top level docker stack for an example of how dashboards are provisioned into a container.
